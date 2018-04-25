@@ -87,9 +87,10 @@ public class SierpinskiTriangle extends JPanel implements ChangeListener {
      * @param point3 the third vertex of the triangle to draw
      * @param depth the number of nested triangles
      */
-    public void sierpinski(final Graphics g, final Point2D point1,
-            final Point2D point2, final Point2D point3, final int depth) {
+    public void sierpinski(final Graphics g, final Point2D point1, final Point2D point2, final Point2D point3, final int depth)
+    {
         // TODO: Implement recursive drawing of Sierpinski triangles
+        Triangle big = new Triangle();
     }
 
     /**
