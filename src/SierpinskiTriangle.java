@@ -90,8 +90,6 @@ public class SierpinskiTriangle extends JPanel implements ChangeListener {
      */
     public void sierpinski(final Graphics g, final Point2D point1, final Point2D point2, final Point2D point3, final int depth, int currentDepth)
     {
-        // TODO: Implement recursive drawing of Sierpinski triangles
-
         //quit if it's past the current depth
         if(currentDepth > depth)
             return;
