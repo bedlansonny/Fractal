@@ -48,6 +48,7 @@ public class SierpinskiTriangle extends JPanel implements ChangeListener {
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
     }
 
     /**
@@ -75,7 +76,7 @@ public class SierpinskiTriangle extends JPanel implements ChangeListener {
         Point2D.Double point2 = new Point2D.Double(0.0, getHeight());
         Point2D.Double point3 = new Point2D.Double(getWidth(), getHeight());
         int depth = depthSlider.getValue();
-        sierpinski(g, point1, point2, point3, depth);
+        sierpinski(g, point1, point2, point3, depth, 0);
     }
 
     /**
@@ -87,10 +88,36 @@ public class SierpinskiTriangle extends JPanel implements ChangeListener {
      * @param point3 the third vertex of the triangle to draw
      * @param depth the number of nested triangles
      */
-    public void sierpinski(final Graphics g, final Point2D point1, final Point2D point2, final Point2D point3, final int depth)
+    public void sierpinski(final Graphics g, final Point2D point1, final Point2D point2, final Point2D point3, final int depth, int currentDepth)
     {
         // TODO: Implement recursive drawing of Sierpinski triangles
-        Triangle big = new Triangle();
+
+        //quit if it's past the current depth
+        if(currentDepth > depth)
+            return;
+
+        //base triangle
+        if(currentDepth == 0)
+        {
+            g.setColor(Color.GREEN);
+            g.fillPolygon(new int[]{(int)point1.getX(),(int)point2.getX(),(int)point3.getX()},new int[]{(int)point1.getY(),(int)point2.getY(),(int)point3.getY()},3);
+        }
+
+        //create 3 midpoints
+        Point2D.Double pointW = new Point2D.Double(.5*point1.getX()+.5*point2.getX(),.5*point1.getY()+.5*point2.getY());
+        Point2D.Double pointE = new Point2D.Double(.5*point2.getX()+.5*point3.getX(),.5*point2.getY()+.5*point3.getY());
+        Point2D.Double pointS = new Point2D.Double(.5*point3.getX()+.5*point1.getX(),.5*point3.getY()+.5*point1.getY());
+
+        //create middle triangle
+        int[] midXVals = new int[] {(int)pointW.getX(),(int)pointE.getX(),(int)pointS.getX()};
+        int[] midYVals = new int[] {(int)pointW.getY(),(int)pointE.getY(),(int)pointS.getY()};
+        g.setColor(Color.WHITE);
+        g.fillPolygon(midXVals,midYVals,3);
+
+        //make 3 sierpinski triangles out of the newly created top, bottom, and left triangles
+        sierpinski(g,point1,pointW,pointS,depth,currentDepth+1);
+        sierpinski(g,pointW,point2,pointE,depth,currentDepth+1);
+        sierpinski(g,pointS,pointE,point3,depth,currentDepth+1);
     }
 
     /**
